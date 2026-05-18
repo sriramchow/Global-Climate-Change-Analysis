@@ -1,0 +1,16 @@
+# macOS metadata
+.DS_Store
+__MACOSX/
+._*
+
+# Tableau temp files
+*.twbr
+
+# Zip archives
+*.zip
+
+# Duplicate folder (older version)
+Global land Temperature/
+
+# Oversized data file (509MB — download from Kaggle)
+Final_Project_SDV/data/GlobalLandTemperaturesByCity.csv
