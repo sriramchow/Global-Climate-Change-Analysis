@@ -1,6 +1,12 @@
 # Global Climate Change Analysis
 
+[![Live Site](https://img.shields.io/badge/Live%20Site-GitHub%20Pages-blue?logo=github)](https://sriramchow.github.io/Global-Climate-Change-Analysis/)
+[![Watch on YouTube](https://img.shields.io/badge/YouTube-Watch%20Presentation-red?logo=youtube)](https://youtu.be/kJt0P61GdxQ)
+[![View Notebook](https://img.shields.io/badge/Notebook-nbviewer-orange?logo=jupyter)](https://nbviewer.org/github/sriramchow/Global-Climate-Change-Analysis/blob/main/Final_Project_SDV/Project_Notebook.ipynb)
+
 A data analysis project exploring global land temperature trends (2000–2015) using Python and Tableau. Covers data cleaning, feature engineering, static and interactive visualizations, and regional climate comparisons.
+
+🌐 **Live Site:** [https://sriramchow.github.io/Global-Climate-Change-Analysis/](https://sriramchow.github.io/Global-Climate-Change-Analysis/)
 
 ---
 
