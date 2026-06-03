@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Climate Change Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:    #3b82f6;
+      --cyan:    #06b6d4;
+      --green:   #10b981;
+      --dark:    #0a0f1e;
+      --card:    rgba(255,255,255,0.04);
+      --border:  rgba(255,255,255,0.08);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    nav .brand { font-weight: 700; font-size: 1rem; color: #fff; }
+    nav .links { display: flex; gap: 1.5rem; }
+    nav .links a {
+      color: #94a3b8; text-decoration: none; font-size: 0.875rem;
+      transition: color .2s;
+    }
+    nav .links a:hover { color: var(--cyan); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(6,182,212,0.12) 0%, transparent 70%);
+    }
+    .badge {
+      display: inline-block;
+      padding: .35rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(6,182,212,0.4);
+      color: var(--cyan);
+      font-size: .75rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 800; line-height: 1.15;
+      background: linear-gradient(135deg, #fff 30%, var(--cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1.25rem;
+    }
+    .hero p {
+      max-width: 640px; color: #94a3b8;
+      font-size: 1.1rem; margin-bottom: 2.5rem;
+    }
+    .btn-group { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.75rem; border-radius: .75rem;
+      font-weight: 600; font-size: .9rem; text-decoration: none;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      color: #fff;
+      box-shadow: 0 0 20px rgba(6,182,212,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(6,182,212,0.5); }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: #cbd5e1; background: var(--card);
+    }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat {
+      text-align: center; min-width: 120px;
+    }
+    .stat .num {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat .lbl { font-size: .8rem; color: #64748b; margin-top: .2rem; }
+
+    /* ── SECTION ── */
+    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      text-align: center; margin-bottom: 3rem;
+    }
+    .section-title h2 {
+      font-size: 2rem; font-weight: 700; color: #f1f5f9;
+      margin-bottom: .5rem;
+    }
+    .section-title p { color: #64748b; font-size: .95rem; }
+
+    /* ── VIDEO ── */
+    .video-wrap {
+      position: relative; padding-top: 56.25%;
+      border-radius: 1.25rem; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 60px rgba(6,182,212,0.1);
+    }
+    .video-wrap iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+
+    /* ── TOOLS ── */
+    .tools-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;
+    }
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem; padding: 1.25rem;
+      display: flex; flex-direction: column; gap: .4rem;
+      transition: border-color .2s;
+    }
+    .tool-card:hover { border-color: var(--cyan); }
+    .tool-card .icon { font-size: 1.5rem; }
+    .tool-card .name { font-weight: 600; font-size: .9rem; color: #e2e8f0; }
+    .tool-card .desc { font-size: .78rem; color: #64748b; }
+
+    /* ── VIZ GALLERY ── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .gallery-item {
+      border-radius: 1rem; overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--card);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(6,182,212,0.15);
+    }
+    .gallery-item img {
+      width: 100%; height: 200px; object-fit: cover; display: block;
+    }
+    .gallery-item .cap {
+      padding: .75rem 1rem; font-size: .8rem; color: #94a3b8;
+    }
+
+    /* ── LINKS SECTION ── */
+    .links-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem;
+    }
+    .link-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 1rem; padding: 1.5rem;
+      text-decoration: none; display: flex; flex-direction: column; gap: .5rem;
+      transition: all .2s;
+    }
+    .link-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+    .link-card .icon { font-size: 1.75rem; }
+    .link-card .title { font-weight: 600; color: #e2e8f0; font-size: .95rem; }
+    .link-card .sub { font-size: .78rem; color: #64748b; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      color: #475569; font-size: .85rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="brand">🌍 Global Climate Change Analysis</span>
+  <div class="links">
+    <a href="#video">Video</a>
+    <a href="#visualizations">Visualizations</a>
+    <a href="#tools">Tools</a>
+    <a href="#resources">Resources</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">📊 Data Science &amp; Visualization Project</div>
+  <h1>Understanding Global<br/>Climate Change</h1>
+  <p>Analyzing global land temperature trends from 2000–2015 using Python, Tableau, and machine learning to uncover patterns, regional differences, and climate uncertainties.</p>
+  <div class="btn-group">
+    <a href="https://youtu.be/kJt0P61GdxQ" target="_blank" class="btn btn-primary">
+      ▶ Watch Presentation
+    </a>
+    <a href="https://nbviewer.org/github/sriramchow/Global-Climate-Change-Analysis/blob/main/Final_Project_SDV/Project_Notebook.ipynb"
+       target="_blank" class="btn btn-outline">📓 View Notebook</a>
+    <a href="https://github.com/sriramchow/Global-Climate-Change-Analysis"
+       target="_blank" class="btn btn-outline">⭐ GitHub Repo</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="num">7</div><div class="lbl">Datasets Analyzed</div></div>
+  <div class="stat"><div class="num">2000–2015</div><div class="lbl">Time Period</div></div>
+  <div class="stat"><div class="num">195+</div><div class="lbl">Countries Covered</div></div>
+  <div class="stat"><div class="num">4</div><div class="lbl">Tools Used</div></div>
+  <div class="stat"><div class="num">10+</div><div class="lbl">Visualizations</div></div>
+</div>
+
+<!-- VIDEO -->
+<section id="video">
+  <div class="section-title">
+    <h2>📽 Project Presentation</h2>
+    <p>Full walkthrough of the analysis, methodology, and findings</p>
+  </div>
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/kJt0P61GdxQ"
+            title="Global Climate Change Analysis"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- VISUALIZATIONS -->
+<section id="visualizations">
+  <div class="section-title">
+    <h2>📈 Key Visualizations</h2>
+    <p>Snapshots from the Tableau dashboard and Python analysis</p>
+  </div>
+  <div class="gallery">
+    <div class="gallery-item">
+      <img src="../Final_Project_SDV/Images/Screenshot (594).png" alt="Visualization 1" onerror="this.src='https://via.placeholder.com/400x200/0f172a/06b6d4?text=Visualization'"/>
+      <div class="cap">Temperature Trend Overview</div>
+    </div>
+    <div class="gallery-item">
+      <img src="../Final_Project_SDV/Images/Screenshot (595).png" alt="Visualization 2" onerror="this.src='https://via.placeholder.com/400x200/0f172a/06b6d4?text=Visualization'"/>
+      <div class="cap">Global Temperature Distribution</div>
+    </div>
+    <div class="gallery-item">
+      <img src="../Final_Project_SDV/Images/Screenshot (596).png" alt="Visualization 3" onerror="this.src='https://via.placeholder.com/400x200/0f172a/06b6d4?text=Visualization'"/>
+      <div class="cap">Regional Temperature Patterns</div>
+    </div>
+    <div class="gallery-item">
+      <img src="../Final_Project_SDV/Images/Screenshot (597).png" alt="Visualization 4" onerror="this.src='https://via.placeholder.com/400x200/0f172a/06b6d4?text=Visualization'"/>
+      <div class="cap">Year-over-Year Analysis</div>
+    </div>
+    <div class="gallery-item">
+      <img src="../Final_Project_SDV/Images/Screenshot (598).png" alt="Visualization 5" onerror="this.src='https://via.placeholder.com/400x200/0f172a/06b6d4?text=Visualization'"/>
+      <div class="cap">Country Comparison Dashboard</div>
+    </div>
+    <div class="gallery-item">
+      <img src="../Final_Project_SDV/Images/Screenshot (599).png" alt="Visualization 6" onerror="this.src='https://via.placeholder.com/400x200/0f172a/06b6d4?text=Visualization'"/>
+      <div class="cap">Temperature Uncertainty Analysis</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-title">
+    <h2>🛠 Tools &amp; Technologies</h2>
+    <p>Technologies used in the analysis pipeline</p>
+  </div>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="icon">🐍</div>
+      <div class="name">Python</div>
+      <div class="desc">Data processing, analysis, and static visualizations</div>
+    </div>
+    <div class="tool-card">
+      <div class="icon">🐼</div>
+      <div class="name">Pandas &amp; NumPy</div>
+      <div class="desc">Data cleaning, transformation, and feature engineering</div>
+    </div>
+    <div class="tool-card">
+      <div class="icon">📊</div>
+      <div class="name">Matplotlib &amp; Seaborn</div>
+      <div class="desc">Statistical plots and distribution charts</div>
+    </div>
+    <div class="tool-card">
+      <div class="icon">📉</div>
+      <div class="name">Tableau</div>
+      <div class="desc">Interactive dashboards and geographic visualizations</div>
+    </div>
+    <div class="tool-card">
+      <div class="icon">📓</div>
+      <div class="name">Jupyter Notebook</div>
+      <div class="desc">End-to-end reproducible analysis pipeline</div>
+    </div>
+    <div class="tool-card">
+      <div class="icon">🗂</div>
+      <div class="name">Berkeley Earth Dataset</div>
+      <div class="desc">Global land temperature records from Kaggle</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="section-title">
+    <h2>📁 Project Resources</h2>
+    <p>All project files and documentation</p>
+  </div>
+  <div class="links-grid">
+    <a href="https://youtu.be/kJt0P61GdxQ" target="_blank" class="link-card">
+      <div class="icon">▶️</div>
+      <div class="title">YouTube Presentation</div>
+      <div class="sub">Full project walkthrough video</div>
+    </a>
+    <a href="https://nbviewer.org/github/sriramchow/Global-Climate-Change-Analysis/blob/main/Final_Project_SDV/Project_Notebook.ipynb"
+       target="_blank" class="link-card">
+      <div class="icon">📓</div>
+      <div class="title">Jupyter Notebook</div>
+      <div class="sub">Full analysis pipeline on nbviewer</div>
+    </a>
+    <a href="https://github.com/sriramchow/Global-Climate-Change-Analysis/blob/main/Final_Project_SDV/Report_SDV.pdf"
+       target="_blank" class="link-card">
+      <div class="icon">📄</div>
+      <div class="title">Project Report</div>
+      <div class="sub">Detailed findings and methodology</div>
+    </a>
+    <a href="https://github.com/sriramchow/Global-Climate-Change-Analysis/blob/main/Final_Project_SDV/Final_ppt.pptx"
+       target="_blank" class="link-card">
+      <div class="icon">📊</div>
+      <div class="title">Presentation Slides</div>
+      <div class="sub">PowerPoint deck</div>
+    </a>
+    <a href="https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data"
+       target="_blank" class="link-card">
+      <div class="icon">🗃</div>
+      <div class="title">Dataset (Kaggle)</div>
+      <div class="sub">Berkeley Earth Surface Temperature</div>
+    </a>
+    <a href="https://github.com/sriramchow/Global-Climate-Change-Analysis"
+       target="_blank" class="link-card">
+      <div class="icon">⭐</div>
+      <div class="title">GitHub Repository</div>
+      <div class="sub">Source code and all project files</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  Built by <a href="https://github.com/sriramchow">SriRam Chowdary</a> ·
+  <a href="https://github.com/sriramchow/Global-Climate-Change-Analysis">GitHub</a> ·
+  <a href="https://youtu.be/kJt0P61GdxQ">YouTube</a>
+</footer>
+
+</body>
+</html>
